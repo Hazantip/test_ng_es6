@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ru-EN" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <!--<base href="/" />-->
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AngularJS</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="telephone=no" name="format-detection">
+    <!-- This make sence for mobile browsers. It means, that content has been optimized for mobile browsers -->
+    <meta name="HandheldFriendly" content="true">
+    <meta property="og:title" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="500" />
+    <meta property="og:image:height" content="300" />
+    <meta property="twitter:description" content="" />
+    <link rel="image_src" href="" />
+    <!--<link rel="icon" type="image/x-icon" href="favicon.ico">-->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page" ng-app="app">
+
+<section class="page__wrapper">
+
+    <nav class="navbar navbar-inverse" ng-controller="mainNavCtrl">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"> </span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/">SPA</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a ui-sref="home" href="#">Home</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a ui-sref="about" href="#">About</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a ui-sref="date" href="#">Date</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a ui-sref="404" href="#">404.html</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="bg-primary" ui-view="input-views"></div>
+
+    <div class="bg-success" ui-view></div>
+
+
+    <div class="page__buffer"></div>
+</section>
+
+<footer class="page__footer"></footer>
+
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/angular/angular.js"></script>
+<script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+
+<script src="js/app.js"></script>
+
+<script src="js/controllers/mainNav.js"></script>
+<script src="js/controllers/hompage.js"></script>
+<script src="js/controllers/about.js"></script>
+<script src="js/controllers/date.js"></script>
+<script src="js/controllers/404.js"></script>
+
+
+</body>
+
+</html>

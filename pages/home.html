@@ -1,0 +1,37 @@
+<div class="section homepage" ng-controller="homepageCtrl">
+
+    <div class="container">
+
+        <h1>{[{ homepage }]}</h1>
+        <!-- END -->
+
+        <div class="row">
+
+            <div class="col-xs-12">
+                <h2>
+                    {[{userInfo.user}]}, age: {[{userInfo.age}]}
+                    <span class="label" ng-class="{ 'label-success' : userInfo.admin, 'label-danger' : !userInfo.admin }">
+                        {[{ userInfo.admin ? 'admin' : 'restricted' }]}
+                    </span>
+                </h2>
+                <label>Admin-status
+                    <input type="checkbox" name="adminStatus"
+                           ng-click="userInfo.admin = !userInfo.admin">
+                    {[{ userState }]}
+                </label>
+            </div>
+
+            <div class="col-xs-6">
+                <input type="text" ng-model="text" placeholder="type...">
+            </div>
+
+            <div class="col-xs-6">
+                <span class="output"><b>Output:</b> <span class="bg-info">{[{text}]}</span></span>
+            </div>
+
+        </div>
+        <!-- END -->
+
+    </div>
+
+</div>
