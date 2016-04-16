@@ -2,9 +2,9 @@
 - git init
 - echo> .gitignore
 - fill .gitignore file with
-	> # project dependencies
+	> '# project dependencies'
 	> node_modules
-	> # OSX folder attributes
+	> '# OSX folder attributes'
 	> .DS_Store
 	> ... etc
 - git status
@@ -17,7 +17,7 @@
 
 # Running
 - install node packege manager
-- npm install --save underscore - пока не знаю зачем?
+- npm install --save underscore - i dont know for what that?
 - npm install --save-dev gulp
 	- create and config gulpfile.js
 - npm install --save-dev gulp-babel babel-preset-es2015
@@ -27,9 +27,11 @@
 	- npm install --save-dev gulp-eslint
 - Summury: `look at the page 30 book of es6`
 ___
+
 # ES6 / Babel
 
 ___
+
 # AngularJS
 
 ___
