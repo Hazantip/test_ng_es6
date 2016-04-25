@@ -2,16 +2,19 @@
 const gulp          = require('gulp');
 const sourcemaps    = require('gulp-sourcemaps');
 const browserSync   = require('browser-sync').create();
+
 // js
 const babel         = require('gulp-babel');
 const eslint        = require('gulp-eslint');
 const concat        = require('gulp-concat');
-const uglify        = require('gulp-uglify');
+const uglify        = require('gulp-uglify'); // !!! --> task commented
+
 // css
 const postcss       = require('gulp-postcss');
-const cssnano       = require('cssnano');
+const cssnano       = require('cssnano'); // !!! --> task commented
 const sass          = require('gulp-sass');
 const autoprefixer  = require('autoprefixer');
+
 // path
 const staticPath = 'static/';
 const buildPath  = 'build/';
@@ -22,69 +25,73 @@ const src = {
     html: buildPath  + '**/*.html'
 };
 
+//  TODO: 1. optimize css task speed;
+//  TODO: 2. css minimize;
+//  TODO: 3. image minimize;
+//  TODO: 4. img/svg sprite;
+//  TODO: 5. some html handler;
+
 gulp.task('default', ['watch']);
 
+gulp.task('watch', ['js', 'es6', 'css'],function () {
+    browserSync.init({
+        server: { baseDir: buildPath },
+        logLevel: 'debug'
+    });
+    gulp.watch( buildPath  + '**/*.html' ).on('change', browserSync.reload);
+    gulp.watch( staticPath + '**/*.scss', ['css']);
+    gulp.watch( staticPath + '**/*.js', ['js'] );
+});
+
+/**
+ * Here file concatenation order
+ * and
+ * other js tasks
+ */
 gulp.task('js',function () {
     return gulp.src(
         [
-            'static/js/frameworks/*.js',
-            'static/js/libraries/*.js',
-            'static/js/plugins/*.js',
-            'static/js/angular/app.js',
-            'static/js/angular/controllers/*.js',
-            'static/js/es6/dist/*.js',
-            'static/js/*.js'
+            staticPath + 'js/frameworks/*.js',
+            staticPath + 'js/libraries/*.js',
+            staticPath + 'js/plugins/*.js',
+            staticPath + 'js/angular/app.js',
+            staticPath + 'js/angular/**/*.js',
+            staticPath + 'js/es6/dist/*.js',
+            staticPath + 'js/*.js'
         ])
         .pipe(sourcemaps.init())
         .pipe(concat('main.js'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('build/js/'))
+        .pipe(gulp.dest( buildPath + 'js/'))
         //.pipe(uglify({mangle: false})) // hidden for speed
-        //.pipe(gulp.dest('build/js/min/'))
+        //.pipe(gulp.dest( buildPath + 'js/min/'))
         .pipe(browserSync.reload({stream: true}));
 
 });
 
 gulp.task('es6', function () {
     // Run eslint, babel
-    return gulp.src( 'static/js/es6/*.js' )
+    return gulp.src( staticPath + 'js/es6/*.js' )
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(babel())
-        .pipe(gulp.dest( 'static/js/es6/dist' ))
+        .pipe(gulp.dest( staticPath + 'js/es6/dist' ))
         .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('css', function () {
-    const processors = [ autoprefixer, cssnano ];
+    //const processors = [ autoprefixer({browsers: ["> 1%","last 2 versions","Firefox ESR","android 4"]}), cssnano ]; // hidden for speed
+    const processors = [ autoprefixer({browsers: ["> 1%","last 2 versions","Firefox ESR","android 4"]}) ];
     return gulp.src(src.scss)
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', function (err) {
             console.error('Error!', err.message);
         }))
         .pipe(postcss(processors))
-        .pipe(postcss([ autoprefixer({ browsers: ['last 2 versions'] }) ]))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('build/css/') )
+        .pipe(gulp.dest( buildPath + 'css/') )
         .pipe(browserSync.reload({stream: true}));
 });
-
-gulp.task('watch', ['js', 'es6', 'css'],function () {
-    browserSync.init({
-        server: {
-            baseDir: 'build/'
-        },
-        logLevel: 'debug'
-    });
-    gulp.watch('build/**/*.html').on('change', browserSync.reload);
-    gulp.watch('static/**/*.scss', ['css']);
-    gulp.watch('static/**/*.js', ['js'] );
-});
-
-//  TODO: 1. optimize css task speed;
-//  TODO: 2. css minimize;
-//  TODO: 3. image minimize;
-//  TODO: 4. img/svg sprite;
 
 //tars.packages = {
 //    autoprefixer: tars.require('autoprefixer'),

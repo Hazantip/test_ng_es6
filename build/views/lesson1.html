@@ -1,0 +1,46 @@
+<section ng-controller="lesson1Ctrl">
+    <!-- title -->
+    <h1>lesson 1</h1>
+    <!-- One way data-binding -->
+    <table class="table table-bordered">
+        <tr>
+            <th colspan="4">
+                <label>Количество стран(2): </label>
+                <input type="text" ng-model="countryLimit">
+            </th>
+        </tr>
+        <tr ng-repeat="country in countries | limitTo: countryLimit || 2">
+            <td>Country:</td>
+            <td>{{country.name}}</td>
+            <td>Population:</td>
+            <td>{{country.population | number }}</td>
+        </tr>
+    </table>
+    <!-- TO-DO LIST -->
+    <section class="to-do">
+        <h2>Список стран:</h2>
+        <p>Посетил {{ remain() }} из <b ng-bind="countries.length"></b></p>
+
+        <table class="table table-bordered table-stripped">
+            <tr ng-repeat="country in countries">
+                <td>
+                    <!--
+                    ng-model проставляет checked
+                    и создает двухсторон. привзяку
+                    -->
+                    <input type="checkbox" ng-model="country.visited" >
+                </td>
+                <td class="done-{{country.visited}}">{{country.name}}</td>
+            </tr>
+        </table>
+
+        <form  ng-submit="addCountry()">
+            <div class="btn-group-vertical">
+                <label>Добавить страну:</label>
+                <input type="text" class="form-inline" ng-model="newCountry">
+                <button class="btn btn-sm btn-primary" type="submit">Добавить</button>
+            </div>
+        </form>
+    </section>
+
+</section>

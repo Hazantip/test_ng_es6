@@ -1,22 +1,43 @@
-body {
-    padding: 10px;
-    font-family: "Georgia", serif, sans-serif;
-    font-size: 16px;
+$footer_height: 40px;
+
+html {
+    position: relative;
+    min-height: 100%;
+    background: #E6E6E6;
 }
 
-.row {
-    background-color: steelblue;
+body {
+    background: none;
+    margin-bottom: $footer_height;
+    font: 12px "Verdana", serif, sans-serif;
 }
+
 
 h1 {
     text-align: left;
-    color: white;
     transform: rotateZ(1deg) translateZ(0);
     will-change: transform;
     @include screen('tablet') {
         text-shadow: -2px -2px 2px #333;;
         text-align: right;
     };
+}
+
+main {
+    padding: 20px;
+}
+
+.page__footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: $footer_height;
+
+    overflow: hidden;
+    background-color: #222;
+    border-color: #080808;
+    color: #9D9D9D;
+    padding: 10px 0;
 }
 
 .section {
@@ -31,8 +52,10 @@ h1 {
 }
 
 [ui-view] {
+    margin-bottom: 20px;
+
     transform-origin: 50% 50%;
-    transition: all 1s ease;
+    transition: all 0.5s ease;
     opacity: 1;
     &.ng-enter {
         opacity: 0;
@@ -42,9 +65,30 @@ h1 {
     }
     &.ng-leave {
         opacity: 1;
-        position: absolute;
+        transition-duration: 0s;
     }
     &.ng-leave-active {
         opacity: 0;
     }
 }
+
+
+header .navbar {
+    margin: 0;
+    border-radius: 0;
+}
+
+// *****************
+// TO-DO
+// *****************
+
+.to-do {
+    .done-true {
+        text-decoration: line-through;
+        color: limegreen;
+    }
+    .done-false {
+        color: #ff0043;
+    }
+}
+
