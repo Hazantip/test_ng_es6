@@ -1,3 +1,4 @@
+<!--Lesson 1 -->
 <section ng-controller="lesson1Ctrl">
     <!-- title -->
     <h1>lesson 1</h1>
@@ -18,29 +19,84 @@
     </table>
     <!-- TO-DO LIST -->
     <section class="to-do">
+
         <h2>Список стран:</h2>
+
+        <form ng-submit="addCountry()">
+            <div class="form-group">
+                <label>Страна:
+                    <input type="text" class="form-inline" ng-model="newCountry">
+                </label>
+                <label>Посещений:
+                    <input type="text" class="form-inline" ng-model="newCountryTimes">
+                </label>
+                <button class="btn btn-sm btn-primary" type="submit">Добавить</button>
+            </div>
+        </form>
+
         <p>Посетил {{ remain() }} из <b ng-bind="countries.length"></b></p>
 
         <table class="table table-bordered table-stripped">
             <tr ng-repeat="country in countries">
-                <td>
-                    <!--
-                    ng-model проставляет checked
-                    и создает двухсторон. привзяку
-                    -->
-                    <input type="checkbox" ng-model="country.visited" >
-                </td>
+                <td><input type="checkbox" ng-model="country.visited"></td>
                 <td class="done-{{country.visited}}">{{country.name}}</td>
+                <td>{{country.times}}</td>
+                <td ng-click="deleteCountry( country.name )">delete</td>
             </tr>
         </table>
 
-        <form  ng-submit="addCountry()">
-            <div class="btn-group-vertical">
-                <label>Добавить страну:</label>
-                <input type="text" class="form-inline" ng-model="newCountry">
-                <button class="btn btn-sm btn-primary" type="submit">Добавить</button>
-            </div>
-        </form>
     </section>
+</section>
 
+<!-- Calculators homework -->
+<section>
+    <h2>Calculators</h2>
+    <!-- CALCULATOR-MINI -->
+    <section class="calc-mini" ng-controller="calculatorMiniCtrl">
+        <div class="form-group">
+            <input type="text" name="numOne" ng-model="numOne"> +
+            <input type="text" name="numTwo" ng-model="numTwo" ng-blur="calcSum()"> =
+            <span class="output"> {{ result }} </span>
+        </div>
+    </section>
+    <!-- CALCULATOR -->
+    <section class="calc clearfix" ng-controller="calculatorCtrl">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-control">{{result}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <ul class="calc__numbers">
+                    <li ng-repeat="num in numbers">
+                        <a ng-click="pushNumber()">{{num}}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-6">
+                <ul class="calc__operators">
+                    <li ng-repeat="operator in operators">
+                        <a ng-click="pushOperator()">{{operator}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="calc()">=</a>
+                    </li>
+                    <li>
+                        <a ng-click="clearResult()">Clear</a>
+                    </li>
+                    <li>
+                        <a ng-click="delete()">Delete</a>
+                    </li>
+                </ul>
+                <p>Debug:</p>
+                <p>
+                    cur: <b>{{curNumber}}</b>
+                    operator: <b>{{curOperator}}</b>
+                    prev: <b>{{prevNumber}}</b>
+                    result: <b>{{result}}</b>
+                </p>
+            </div>
+        </div>
+    </section>
 </section>

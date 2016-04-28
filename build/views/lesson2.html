@@ -1,3 +1,252 @@
-<section ng-controller="lesson2Ctrl">
-
+<section ng-controller="lesson2QuizCtrl">
+    <div class="well">
+        <div class="quiz">
+           <div class="quiz__item" ng-repeat="quizItem in quizList" ng-if="!end">
+               <!-- Генерируем в цикле каждый объект -->
+               <!-- Увеличеваем с каждым ответом значение current
+                    что по условию отобразит только подходящий объект -->
+               <div class="slide-left" ng-if="$index === current">
+                   <p>{{quizItem.question}}</p>
+                   <p ng-repeat="answer in quizItem.answer">
+                       <!-- ngModel - это хранилище в которое будет записано значение value/ngValue -->
+                       <input type="radio"
+                              id="quiz{{current}}{{$index}}"
+                              ng-value="answer"
+                              ng-model="data[current].userChoice"
+                              ng-click="pushResults(quizItem, answer)"
+                       />
+                       <label for="quiz{{current}}{{$index}}">{{answer}}</label>
+                   </p>
+               </div>
+           </div>
+            <div class="results fade-in-out" ng-if="end">
+                <button class="btn btn-primary" ng-click="restart()">restart</button>
+                <ul>
+                    <li ng-repeat="result in results"
+                        ng-class="result.correct ? 'bg-success' : 'bg-danger'">
+                        <p>Вопрос: {{result.question}}</p>
+                        <p>Ответ : {{result.answer}}</p>
+                        <p>Верно : {{result.correct}}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </section>
+
+<section ng-controller="lesson2NewsCtrl">
+    <div class="well">
+        <h3>Новости</h3>
+        <div class="row">
+            <div class="col-xs-3" ng-repeat="item in news">
+                <a ng-click="showItem(item)">{{item.title}}</a>
+                <p ng-if="item.show">{{item.content}}</p >
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                {{item}}
+                <div class="content">
+                    <div class="fade-in-out" ng-include="itemActive.path"></div>
+                </div>
+            </div>
+        </div>
+        <!--
+            При клике по ссылке фукнция обработчик получает аргументом текущий объект
+            Эта функция ставить этому элементу свойство show на true а другим на false
+            Затем записывает в переменную(itemActive) объект у которого show = true
+            Открывает и подгружаем блоки согласно item.show и itemActive
+        -->
+    </div>
+</section>
+
+<section ng-controller="lesson2CreditCtrl">
+    <div class="well">
+        <h3>Кредитный калькулятор</h3>
+        <form ng-submit="creditCount()">
+            <table class="table table-bordered credit-calc">
+                <tr>
+                    <td><label>введите сумму кредита <input type="text" ng-model="creditAmount"></label></td>
+                    <td><label>введите ставку, % <input type="text" ng-model="creditPercent"></label></td>
+                    <td><label>введите срок, мес. <input type="text" ng-model="creditPeriod"></label></td>
+                    <td><input type="submit" value="count"></td>
+                </tr>
+                <tr>
+                    <td>выплатить всего: {{countResult.totalPay.toFixed(2) | currency}}</td>
+                    <td>переплата: {{countResult.overPay.toFixed(2) | currency}}</td>
+                    <td>выплата в месяц: {{countResult.monthPay.toFixed(2) | currency}}</td>
+                    <td>переплата в месяц: {{countResult.overMonthPay.toFixed(2) | currency}}</td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</section>
+
+<section ng-controller="lesson2Ctrl">
+    <!-- BINDING -->
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="well">
+                <h3>One-way data binding</h3>
+
+                <p>All code rows has:
+                    <code ng-non-bindable>ng-non-bindable</code>
+                </p>
+                <!-- {{}} -->
+                <p>There are {{tasks.length}} tasks. {{nonexistedvalue}}
+                    <code ng-non-bindable>{{tasks.length}} </code>
+                </p>
+
+                <!-- ng-bind -->
+                <p>There are <span ng-bind="tasks.length"></span> tasks
+                    <code ng-non-bindable>ng-bind="tasks.length"</code>
+                </p>
+
+                <!-- ng-bing-template -->
+                <p ng-bind-template="There are {{tasks.length}} tasks. First: {{tasks[1].action}}"></p>
+                <code ng-non-bindable>ng-bind-template="There are {{tasks.length}} tasks. First: {{tasks[1].action}}" </code>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div class="well">
+                <h3>Two-way data binding via ng-model</h3>
+                <input type="text" ng-model="placeholder">
+                <span class="output">{{placeholder}}</span>
+            </div>
+        </div>
+    </div>
+    <!-- ngREPEAT ngCLASS ngIF -->
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="well">
+                <h3>ngRepeat + inserted ng-repeat + key-value</h3>
+                <!--
+                    создаем repeat внутри repeat чтобы не указывать значения в каждом td
+                    Angular создаст столько td в tr, сколкоь свойств в каждом объекте
+                    а через (ключ, значение) можно вытянуть еще и название свойства
+                    а не только его значение
+                -->
+                <table class="table">
+                    <tr ng-repeat="task in tasks">
+                        <td>{{$index}})</td>
+                        <td ng-repeat="(key, value) in task">
+                            {{key}}: {{value}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div class="well">
+                <h3>Встроенные переменные, ngClass, ngIf</h3>
+                <table class="table">
+                    <tr ng-repeat="task in tasks">
+                        <td>$index:  {{$index}}</td>
+                        <td ng-class="{'bg-success': $even}">$even:   {{$even}}</td>
+                        <td ng-class="{'bg-success': $odd}">$odd:    {{$odd}}</td>
+                        <td ng-class="{'bg-success': $first}">$first:  {{$first}}</td>
+                        <td ng-class="{'bg-success': $last}">$last:   {{$last}}</td>
+                        <td ng-class="{'bg-success': $middle}">$middle: {{$middle}}</td>
+                        <td ng-if="$first || $last">ngIf</td>
+                    </tr>
+                </table>y
+
+            </div>
+        </div>
+    </div>
+    <!--ngREPEATSTART/END ngINCLUDE-->
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="well">
+                <div class="h3">ngRepeatStart, ngRepeatEnd</div>
+                <table class="table table-responsive table-bordered">
+                    <tr ng-repeat-start="task in tasks">
+                        <td>{{$index+1}}.</td>
+                    </tr>
+                    <tr>
+                        <td>Done: {{task.complete}}</td>
+                    </tr>
+                    <tr ng-repeat-end>
+                        <td>
+                            Level {{$index+1}}/{{tasks.length}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div class="well">
+                <div class="h3">ngInclude</div>
+                <!--<ng-include src="'../views/404.html'"></ng-include>-->
+
+                <h5>Static:</h5>
+                <div class="well" ng-include="'../views/404.html'" style="overflow: scroll;"></div>
+
+                <select ng-model="view" ng-options="view.name for view in views">
+                    <option value="">(blank)</option>
+                </select>
+                <h5>Dynamic: {{view.url}}</h5>
+                <div class="well" style="overflow: scroll">
+                    <div class="slide-animate" ng-include="view.url" onload="showIncludeStatus()"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--ngSWITCH-->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="well">
+
+                <div ng-repeat="style in ['Default', 'List', 'Table']">
+                    <label ng-cloak>
+                        <!-- ngModel примет значение из value -->
+                        <!-- ng-checked не делает ничего, только вид, а вот -->
+                        <!-- ng-switch-default отвечает за отображение! -->
+                        <!-- аттрибут name не связывает в angular инпуты в группы -->
+                        <!-- они связаны по области видимости, её разделил объектами в ngModel -->
+                        <!-- ng-switch будет сверяться с value -->
+                        <input type="radio"
+                               ng-model="data.mode"
+                               ng-click="showData(data)"
+                               value="{{style}}"
+                               ng-checked="$first">
+                        {{style}}
+                    </label>
+                </div>
+                <span>Не связанные радиокнопки</span>
+                <div ng-repeat="style in ['Default', 'List', 'Table']">
+                    <label>
+                        <input type="radio"
+                               ng-model="dataS.mode"
+                               ng-click="showData(dataS)"
+                               value="{{style}}"
+                               ng-checked="$first">
+                        {{style}}
+                    </label>
+                </div>
+
+                <div ng-switch  on="data.mode">
+                    <div class="well" ng-switch-default>Default.</div>
+                    <div class="well" ng-switch-when="List">
+                        <ul>
+                            <li ng-repeat="task in tasks">
+                                <span ng-if="$middle">--</span> {{task.action}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="well" ng-switch-when="Table">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td ng-repeat="task in tasks">
+                                    <span ng-if="$middle">--</span> {{task.action}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -2,6 +2,7 @@
 const gulp          = require('gulp');
 const sourcemaps    = require('gulp-sourcemaps');
 const browserSync   = require('browser-sync').create();
+const plumber       = require('gulp-plumber');
 
 // js
 const babel         = require('gulp-babel');
@@ -36,11 +37,12 @@ gulp.task('default', ['watch']);
 gulp.task('watch', ['js', 'es6', 'css'],function () {
     browserSync.init({
         server: { baseDir: buildPath },
-        logLevel: 'debug'
+        logPrefix: "Hazantip",
+        notify: false
     });
-    gulp.watch( buildPath  + '**/*.html' ).on('change', browserSync.reload);
     gulp.watch( staticPath + '**/*.scss', ['css']);
     gulp.watch( staticPath + '**/*.js', ['js'] );
+    gulp.watch( buildPath  + '**/*.html' ).on('change', browserSync.reload);
 });
 
 /**
@@ -84,13 +86,12 @@ gulp.task('css', function () {
     const processors = [ autoprefixer({browsers: ["> 1%","last 2 versions","Firefox ESR","android 4"]}) ];
     return gulp.src(src.scss)
         .pipe(sourcemaps.init())
-        .pipe(sass().on('error', function (err) {
-            console.error('Error!', err.message);
-        }))
+        .pipe(plumber()) // * fix pipe after 1st error
+        .pipe(sass.sync().on('error', sass.logError))
         .pipe(postcss(processors))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest( buildPath + 'css/') )
-        .pipe(browserSync.reload({stream: true}));
+        .pipe(browserSync.stream());
 });
 
 //tars.packages = {

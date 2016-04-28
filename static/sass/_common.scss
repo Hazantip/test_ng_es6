@@ -27,6 +27,14 @@ main {
     padding: 20px;
 }
 
+section {
+    margin-bottom: 20px;
+}
+
+.container {
+    max-width: 100%;
+}
+
 .page__footer {
     position: absolute;
     bottom: 0;
@@ -51,24 +59,49 @@ main {
     }
 }
 
-[ui-view] {
+[ui-view],
+.fade-in-out {
     margin-bottom: 20px;
 
     transform-origin: 50% 50%;
-    transition: all 0.5s ease;
+    transition: all 0.75s ease;
     opacity: 1;
     &.ng-enter {
         opacity: 0;
-    }
-    &.ng-enter-active {
-        opacity: 1;
+        &.ng-enter-active {
+            opacity: 1;
+        }
     }
     &.ng-leave {
         opacity: 1;
         transition-duration: 0s;
+        &.ng-leave-active {
+            opacity: 0;
+        }
     }
-    &.ng-leave-active {
+}
+
+.slide-left {
+    transform-origin: 0 100%;
+    transition: all 0.7s ease;
+    opacity: 1;
+    &.ng-enter {
+        transition-delay: 0.35s;
         opacity: 0;
+        transform: translateX(50px);
+        &.ng-enter-active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    &.ng-leave {
+        position: absolute;
+        opacity: 1;
+        transform: translateX(0);
+        &.ng-leave-active {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
     }
 }
 
@@ -92,3 +125,125 @@ header .navbar {
     }
 }
 
+// *****************
+// CALCULATOR
+// *****************
+
+.calc {
+    background-color: rgba(#000, 0.05);
+    ul {
+        font-size: 0;
+        padding-top: 10px;
+    }
+    li {
+        list-style-type: none;
+        width: 100/3 * 1%;
+        display: inline-block;
+    }
+    a {
+        display: block;
+        height: 28px;
+        line-height: 28px;
+        font-size: initial;
+        text-align: center;
+        cursor: pointer;
+        background-color: rgba(#000, 0.05);
+        border-left: 1px solid rgba(#000, 0.1);
+        border-bottom: 1px solid rgba(#000, 0.1);
+        &:hover {
+            background-color: rgba(#000, 0.15);
+            text-decoration: none;
+        }
+    }
+    &__operators {
+        li {
+            width: 100/4 * 1%;
+            &.full {
+                width: 100%;
+            }
+        }
+        a {
+            background-color: rgba(#a90, 0.05);
+        }
+    }
+}
+
+// *****************
+// Lesson 2
+// *****************
+
+.slide-animate.well {
+    overflow: hidden;
+}
+
+.slide-animate.ng-enter,
+.slide-animate.ng-leave {
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    position: relative;
+}
+
+.slide-animate.ng-enter {
+    top:-50px;
+}
+.slide-animate.ng-enter.ng-enter-active {
+    top:0;
+}
+
+.slide-animate.ng-leave {
+    top:0;
+}
+.slide-animate.ng-leave.ng-leave-active {
+    top:50px;
+}
+
+
+// *****************
+// Quiz
+// *****************
+.quiz {
+    &__item {
+        input {
+            position: absolute;
+            clip: rect(0,0,0,0);
+            visibility: hidden;
+        }
+        label {
+            &::before {
+                content: '';
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                vertical-align: middle;
+                margin-right: 5px;
+                background: none;
+                border: 1px solid black;
+            }
+        }
+        input:checked + label::before {
+            background-color: grey;
+        }
+    }
+}
+.results {
+    button {
+        margin-bottom: 15px;
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    li {
+        margin: 0 0 15px;
+        padding: 5px 10px;
+        p {
+            margin: 3px;
+            font-size: 11px;
+            line-height: 13px;
+        }
+    }
+}
+
+// *****************
+// Lesson 3
+// *****************
