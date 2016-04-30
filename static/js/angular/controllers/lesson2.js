@@ -67,7 +67,9 @@
 
         $scope.itemActive = undefined;
 
-        $scope.showItem = function (item) {
+        $scope.showItem = function (e, item) {
+            e.isDefaultPrevented();
+            console.log(e);
             for (var i = 0, len = $scope.news.length; i < len; i++) {
                 // set items show true/false
                 $scope.news[i].show = ($scope.news[i] === item);

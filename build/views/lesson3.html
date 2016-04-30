@@ -1,0 +1,222 @@
+<p>
+    ngShow, ngHide, ngIf, ng-class, ngClassOdd, ngClassEven,
+    $event, directive,
+    ng-checked, ng-disabled, ng-readonly, ng-selected, $invalid,
+    ng-href, ng-src, filter,
+    ng-change, ng-minLenght, ng-maxlength, ng-patter, ng-required
+</p>
+<!-- LESSON 3 FORM LIVE VALIDATION -->
+<section ng-controller="lesson3RegUserCtrl">
+    <div class="registration-form well">
+        <form name="regForm" ng-submit="addUser(regForm)" novalidate>
+            <div class="status">
+                form:
+                <pre>{{regForm.$error}}</pre>
+            </div>
+            <div class="form-group">
+                <label>
+                    Name: <sup>{{pattern.user}}</sup>
+                    <input type="text" class="form-control" name="userName" ng-model="user.name"
+                           ng-pattern="pattern.user" required>
+                </label>
+                <div class="error" ng-if="regForm.$submitted && regForm.userName.$invalid">
+                    {{getError(regForm.userName.$error)}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Email: <sup>*@*</sup>
+                    <input type="email" class="form-control" name="userEmail" ng-model="user.email" required>
+                </label>
+                <div class="error" ng-if="regForm.$submitted && regForm.userEmail.$invalid">
+                    {{getError(regForm.userEmail.$error)}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Phone: <sup>0-9</sup>
+                    <input type="text" class="form-control" name="userPhone" ng-model="user.phone"
+                           ng-pattern="pattern.phone" required>
+                </label>
+                <div class="error" ng-if="regForm.$submitted && regForm.userPhone.$invalid">
+                    {{getError(regForm.userPhone.$error)}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Password: <sup> > 3 </sup>
+                    <input type="text" class="form-control" name="userPassword" ng-model="user.password"
+                           ng-minlength="3" required>
+                </label>
+                <div class="error" ng-if="regForm.$submitted && regForm.userPassword.$invalid">
+                    {{getError(regForm.userPassword.$error)}}
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit" ng-disabled="false">Add</button>
+                'regForm.$valid': <b>{{regForm.$valid}}</b>
+            </div>
+        </form>
+    </div>
+    <table class="table table-bordered">
+        <tr ng-repeat="user in users">
+            <td ng-repeat="data in user">{{data}}</td>
+        </tr>
+    </table>
+</section>
+<hr>
+<!-- LESSON 3 THEME SELECTION -->
+<section ng-controller="lesson3ThemeCtrl">
+    <div class="theme {{themes.preview || themes.current}}"> <!-- <-- MAIN LOGIC HERE -->
+        <h3>Выбери тему оформления:</h3>
+        <div class="btn-group">
+            <div class="form-group" ng-repeat="theme in themes.list">
+                <div class="preview theme {{theme}}"
+                     ng-mouseenter="previewThemeStart(theme)"
+                     ng-mouseleave="previewThemeEnd()">
+                </div>
+                <label>
+                    <input type="radio" ng-model="themes.current" value="{{theme}}">{{theme}}
+                </label>
+            </div>
+        </div>
+        <h4>Текущая тема: {{themes.current}}</h4>
+    </div>
+</section>
+<hr>
+<!-- LESSON 3 CONTROL INPUT STATES -->
+<section ng-controller="lesson3StateCtrl">
+    <div class="well">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="dataValue">
+                Apply ng attributes depends on ng-model="dataValue"
+            </label>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-success" ng-disabled="dataValue">ng-disabled</button>
+        </div>
+        <div class="form-group">
+            <label>
+                ng-readonly
+                <input class="form-control" ng-readonly="dataValue" value="Readonly">
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" ng-checked="dataValue">
+                ng-checked
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                ng-select
+                <select class="form-control">
+                    <option value="valueone">value one</option>
+                    <option value="valuetwo" ng-selected="dataValue">value ng-selected</option>
+                </select>
+            </label>
+        </div>
+    </div>
+</section>
+<hr>
+<!-- LESSON 3 CORE -->
+<section class="lesson3" ng-controller="lesson3Ctrl">
+    <h3 tap="message = 'Clicked!'" ng-mouseenter="handleEvent($event)">
+        Tasks List |
+        {{message}} |
+        complete: <span class="label label-info">{{ (tasks | filter : {complete: 'true'}).length }}</span>
+    </h3>
+    <div class="row well">
+        <div class="col-xs-12">
+            <!---->
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="tasks[2].complete">
+                    Task 3 is {{tasks[2].complete ? 'complete': 'not-complete'}};
+                </label>
+            </div>
+            <!---->
+            <div ng-repeat="(key, val) in settings" class="btn-group well" style="margin-right: 15px;">
+                <h4>{{key}}</h4>
+                <div ng-repeat="button in buttonNames">
+                    <label>
+                        <input type="radio" ng-model="settings[key]" value="{{button}}">{{button}}
+                    </label>
+                </div>
+            </div>
+            <!-- FORM -->
+            <div class="new-task">
+                <!--
+                    novalidate - атрибут Angular! отменить браузерное поведение по проверке формы!
+                -->
+                <form name="addNewTask" novalidate ng-submit="addTask(newTask)" class="well">
+                    <div class="form-group">
+                        <label>Name:
+                            <input type="text" name="taskName" ng-model="newTask.name" ng-pattern="matchPattern"
+                                   required>
+                        </label>
+                        <div class="error" ng-show="addNewTask.taskName.$invalid && addNewTask.taskName.$dirty">
+                            <!-- ОЩИБКА: СПОСОБ 1 -->
+                            {{getError(addNewTask.taskName.$error)}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Email:
+                            <input type="email" name="taskEmail" ng-model="newTask.action" required>
+                        </label>
+                        <div class="error" ng-show="addNewTask.taskEmail.$invalid && addNewTask.taskEmail.$dirty">
+                            <!-- ОЩИБКА: СПОСОБ 2 -->
+                            <span ng-show="addNewTask.taskEmail.$error.email">Вы ввели не верно! :( </span>
+                            <span ng-show="addNewTask.taskEmail.$error.required">Вы ничего не ввели!   </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Приоритет:
+                            <select name="taskPriority" ng-model="newTask.priority" required>
+                                <option>*</option>
+                                <option>**</option>
+                                <option>***</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <!-- ng-disabled - делает disabled если не валидно и
+                             отвечает за навешивание классов на форму при проверке  -->
+                        <button type="submit" ng-disabled="addNewTask.$invalid">Добавить</button>
+                    </div>
+                    <p>
+                        Valid: {{addNewTask.$valid}} <br>
+                        Valid name: {{addNewTask.taskName.$valid}}
+                    </p>
+                </form>
+            </div>
+            <!---->
+            <table class="table">
+                <thead class="{{settings.head}}">
+                <tr>
+                    <th>#</th>
+                    <th tap="message = 'Tasks'">Tasks</th>
+                    <th>Done</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody class="{{settings.body}}">
+                <tr ng-repeat="task in tasks" ng-class-even="'even'" ng-class-odd="'odd'">
+                    <td>{{$index + 1}}</td>
+                    <td ng-repeat="property in task">{{property}}</td>
+                    <td>
+                        <input type="checkbox" ng-model="task.complete">
+                        <!--<span ng-hide="task.complete">(Incomplete)</span>-->
+                        <!--<span ng-show="task.complete">(Complete)</span>-->
+
+                        <span ng-if="!task.complete" class="fade-left">(Incomplete)</span>
+                        <span ng-if="task.complete" class="fade-left">(Complete)</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

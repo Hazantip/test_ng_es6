@@ -70,9 +70,22 @@ function appConfig($interpolateProvider, $stateProvider, $urlRouterProvider) {
             views: {
                 'viewA': {
                     templateUrl: 'views/lesson2.html',
-                    controller: 'lesson2Ctrl'
+                    controller: function ($rootScope) {
+                        $rootScope.page = 'lesson2'
+                    }
                 }
             }
 
-        });
+        })
+        .state('lesson3', {
+            url: '/lesson3',
+            views: {
+                'viewA': {
+                    templateUrl: 'views/lesson3.html',
+                    controller: function ($rootScope) {
+                        $rootScope.page = 'lesson3'
+                    }
+                }
+            }
+        })
 }

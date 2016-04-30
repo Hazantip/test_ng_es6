@@ -59,52 +59,9 @@ section {
     }
 }
 
-[ui-view],
-.fade-in-out {
+[ui-view] {
     margin-bottom: 20px;
-
-    transform-origin: 50% 50%;
-    transition: all 0.75s ease;
-    opacity: 1;
-    &.ng-enter {
-        opacity: 0;
-        &.ng-enter-active {
-            opacity: 1;
-        }
-    }
-    &.ng-leave {
-        opacity: 1;
-        transition-duration: 0s;
-        &.ng-leave-active {
-            opacity: 0;
-        }
-    }
 }
-
-.slide-left {
-    transform-origin: 0 100%;
-    transition: all 0.7s ease;
-    opacity: 1;
-    &.ng-enter {
-        transition-delay: 0.35s;
-        opacity: 0;
-        transform: translateX(50px);
-        &.ng-enter-active {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    &.ng-leave {
-        position: absolute;
-        opacity: 1;
-        transform: translateX(0);
-        &.ng-leave-active {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-    }
-}
-
 
 header .navbar {
     margin: 0;
@@ -172,30 +129,6 @@ header .navbar {
 // Lesson 2
 // *****************
 
-.slide-animate.well {
-    overflow: hidden;
-}
-
-.slide-animate.ng-enter,
-.slide-animate.ng-leave {
-    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-    position: relative;
-}
-
-.slide-animate.ng-enter {
-    top:-50px;
-}
-.slide-animate.ng-enter.ng-enter-active {
-    top:0;
-}
-
-.slide-animate.ng-leave {
-    top:0;
-}
-.slide-animate.ng-leave.ng-leave-active {
-    top:50px;
-}
-
 
 // *****************
 // Quiz
@@ -247,3 +180,132 @@ header .navbar {
 // *****************
 // Lesson 3
 // *****************
+.lesson3 {
+    .odd {
+        font-size: 11px;
+    }
+    .even {
+        font-style: italic;
+    }
+}
+
+form .ng-valid.ng-dirty {
+    background-color: lightgreen;
+}
+
+form .ng-invalid.ng-dirty {
+    background-color: lightcoral;
+}
+
+.error {
+    color: lightcoral;
+}
+
+.theme {
+    padding: 15px;
+    &.default {
+        color: #555;
+    }
+    &.black {
+        background-color: #555;
+        color: #fff;
+    }
+    &.white {
+        background-color: #FFF;
+        color: #000;
+    }
+    &.color {
+        background-color: lightblue;
+        color: yellow;
+    }
+    .preview {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+    input {
+        margin-right: 5px;
+        vertical-align: bottom;
+    }
+    label {
+        vertical-align: middle;
+    }
+}
+
+.registration-form {
+    .status {
+        padding: 7px 20px;
+        font-size: 12px;
+        pre {
+            white-space: normal;
+        }
+    }
+}
+
+// *****************
+// Animations
+// *****************
+.fade-in-out {
+    transform-origin: 50% 50%;
+    transition: all 0.75s ease;
+    opacity: 1;
+    &.ng-enter {
+        opacity: 0;
+        &.ng-enter-active {
+            opacity: 1;
+        }
+    }
+    &.ng-leave {
+        opacity: 1;
+        transition-duration: 0s;
+        &.ng-leave-active {
+            opacity: 0;
+        }
+    }
+}
+
+.fade-left {
+    transform-origin: 0 100%;
+    transition: all 0.7s ease;
+    opacity: 1;
+    &.ng-enter {
+        transition-delay: 0.35s;
+        opacity: 0;
+        transform: translateX(50px);
+        &.ng-enter-active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    &.ng-leave {
+        position: absolute;
+        opacity: 1;
+        transform: translateX(0);
+        &.ng-leave-active {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+    }
+}
+
+.slide-toggle {
+    transition: all 0.5s ease;
+    transform-origin: 50% 0;
+    height: 100%;
+    overflow: hidden;
+    &.ng-enter {
+        height: 0;
+        &.ng-enter-active {
+            height: 100%;
+        }
+    }
+    &.ng-leave {
+        height: 100%;
+        &.ng-leave-active {
+            height: 0;
+        }
+    }
+}
